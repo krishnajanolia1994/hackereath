@@ -1,0 +1,71 @@
+The time has arrived when the world is going to end. But don't worry, because the new world yuga will start soon. Manu (carrier of mankind) has been assigned the job to carry all the necessary elements of current yuga to the upcoming yuga.
+
+There are N stones arranged in a straight line. In order to fulfill the task, Manu has to travel from the first stone to the last one in a very specific way. First of all, he has to do it using exactly K jumps. In a single jump, he can jump from a stone with coordinate xi to a stone with coordinate xj if and only if xi < xj. We denote the value xj - xi as the length of such a jump.
+
+Your task is to help Manu minimize the maximum length of a jump he makes in his journey, in order to reach the last stone in exactly K jumps and save the mankind. This is the answer you have to provide.
+
+Input:
+
+In the first line, there is a single integer T denoting the number of test cases to handle. Then, description of T tests follow. In the first line of each such description, two integers N and K are given. This is followed by N space separated integers in the second line, each one denoting a single stone location.
+
+Output:
+
+Output exactly T lines, and in the ith of them, print a single integer denoting the answer to the ith test case.
+
+Constraints:
+
+1 <= T <= 10
+2 <= N <= 105
+1 <= K <= (N-1)
+1 <= Coordinates of stones <= 109
+
+#include <bits/stdc++.h>
+    #define ll long long
+    using namespace std;
+    vector <int> a(100010);
+    ll int n,k;
+    ll int check(ll int sz,ll int stp)
+    {
+    int x=0,idx=0,i;
+    //cout<<stp<<endl;
+    vector < int > ::iterator low;
+    while(x<stp)
+    {
+    //cout<<"enter";
+    low = lower_bound(a.begin(),a.begin()+n,a[idx]+sz);
+    if(*low != a[idx]+sz)
+    low--;
+    idx=(low-a.begin());
+    //cout<<"low"<<idx<<endl;
+    if(idx==n-1)
+    {//cout<<"sz"<<sz<<"passed"<<endl;
+    return 1;}
+    x++;
+    }
+    return 0;
+    }
+    int main()
+    {
+    ll int t,i,lo,hi,mid;
+    //freopen("input.txt","r",stdin);
+    cin>>t;
+    while(t--)
+    {
+    cin>>n>>k;
+    for(i=0;i<n;i++)
+    {
+    cin>>a[i];
+    }
+    lo=1LL;
+    hi=1e9;
+    while(lo<=hi)
+    {
+    mid=(hi+lo)/2;
+    if(check(mid,k))
+    hi=mid-1;
+    else
+    lo=mid+1;
+    }
+    cout<<lo<<endl;
+    }
+    }
