@@ -1,0 +1,80 @@
+You are given n triangles.
+
+You are required to find how many triangles are unique out of given triangles. For each triangle you are given three integers a,b,c , the sides of a triangle.
+
+A triangle is said to be unique if there is no other triangle with same set of sides.
+
+Note : It is always possible to form triangle with given sides.
+
+INPUT:
+
+First line contains n, the number of triangles. Each of next n lines contain three integers a,b,c (sides of a triangle).
+
+Output:
+
+print single integer, the number of unique triangles.
+
+Constraints:
+
+1 <= n <= 10^5
+1 <= a,b,c <= 10^15
+SAMPLE INPUT
+
+5
+7 6 5
+5 7 6
+8 2 9
+2 3 4
+2 4 3 
+
+SAMPLE OUTPUT
+
+1
+ #include <bits/stdc++.h>
+    using namespace std;
+    #define sz(a) int((a).size())
+    #define sl(a) int((a).length())
+    #define pb push_back
+    #define all(c) (c).begin(),(c).end()
+    #define rall(c) (c).rbegin(),(c).rend()
+    #define tr(con,it) for (__typeof((con).begin()) it = con.begin(); it != con.end(); it++)
+    #define wl(x) (cout << (x) << endl)
+    #define w(x) (cout << (x))
+    #define r(x) (cin >> (x))
+    #define FOR(i,a,b) for (int i = (a); i < (b); i++)
+    #define ROF(i,a,b) for (int i = (b-1); i >= (a); i--)
+    #define PP(x) tr(x,it) cout << it->first << " " << it->second << endl
+    #define mp(x,y) make_pair((x),(y))
+    #define reset(x) memset((x),0,sizeof((x)))
+    #define log(x) cout << #x << " = " << x << endl
+    #define log2(x,y) cout << #x << " = " << x << " " << #y << " = " << y << endl
+    #define log3(x,y,z) cout << #x << " = " << x << " " << #y << " = " << y << " " << #z << " = " << z << endl
+    #define MAXN 1000010
+    #define MDL 1000000007
+    int main() {
+    int T;
+    //r(T);
+    T=1;
+    int n;
+    long long a[3];
+    map < pair < pair < int , int > , int > , int > x;
+    int res;
+     
+    FOR(tt,0,T)
+    {
+    r(n);
+    res=0;
+    FOR(i,0,n)
+    {
+    r(a[0]);r(a[1]);r(a[2]);
+    sort(a,a+3);
+    x[mp(mp(a[0],a[1]),a[2])]++;
+    }
+    tr(x,it) if (it->second==1) res++;
+    wl(res);
+    cerr << "case " << (tt+1) << " " << clock() << " ms" << endl;
+    }
+    return 0;
+    }
+
+
