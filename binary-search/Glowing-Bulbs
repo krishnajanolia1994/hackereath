@@ -1,0 +1,84 @@
+/*
+There is an infinite series of bulbs indexed from 1. And there are 40 switches indexed from 1 to 40. Switch with index x is connected to the bulbs with indexes that are multiple of x. i.e switch 2 is connected to bulb 4, 6, 8 ....
+
+You can easily observe that some bulbs are connected to multiple switches and some are not connected to any switch.
+
+Chotu is playing with these switches, he wants to know the Kth glowing bulb from the start if certain switches are in ON state. If any of the switch is ON, connected to any bulb then bulb starts glowing. But chotu has special fond of prime numbers so he only puts prime indexed switches ON.
+
+INPUT-
+
+First line contains number of test cases (T). Each test case contains two lines- First line contains a string S of length 40 containing 0s and 1s that represents the state of bulbs. 1 is ON , 0 is OFF. Second line contains one integer k. Atleast One switch is in ON condition.
+
+OUTPUT-
+
+Output one integer per test case representing kth glowing bulb.
+
+CONSTRAINTS-
+
+1 <= T <= 500
+
+S contains only 0s and 1s. 1s are only at prime positions.
+
+1 <= k <= 10^15
+
+1 is not prime
+*/
+ #include<bits/stdc++.h>
+    using namespace std;
+    typedef long long ll;
+    vector<int> p;
+    ll fun(ll x)
+    {
+    int no=(1<<p.size())-1,cnt;
+    ll n,res=0;
+    //cout<<p.size()<<" "<<no<<endl;
+    for(int i=0;i<p.size();i++)
+    res+=x/p[i];
+    for(int i=1;i<=no;i++)
+    {
+    n=1;
+    cnt=0;
+    for(int j=0;j<p.size();j++)
+    if((i>>j)&1)
+    {
+    cnt++;
+    n*=p[j];
+    }
+    if(cnt==1)
+    continue;
+    if(cnt%2)
+    res+=x/n;
+    else
+    res-=x/n;
+    }
+    return res;
+    }
+    int main()
+    {
+    int tc;
+    ll k,l,r,m;
+    char s[41];
+    scanf("%d",&tc);
+    while(tc--)
+    {
+    p.clear();
+    scanf("%s",s);
+    for(int i=0;i<40;i++)
+    if(s[i]=='1')
+    p.push_back(i+1);
+    scanf("%lld",&k);
+    l=0;r=LLONG_MAX;
+    while(l<r)
+    {
+    m=l+(r-l)/2;
+    if(fun(m)<k)
+    l=m+1;
+    else
+    r=m;
+    }
+    if(fun(m)<k)
+    m++;
+    printf("%lld\n",m);
+    }
+    }
+    
