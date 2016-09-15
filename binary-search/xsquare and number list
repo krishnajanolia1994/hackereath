@@ -1,0 +1,114 @@
+Xsquare loves to play with numbers a lot. Today, he has a multi set S consisting of N integer elements. At first, he has listed all the subsets of his multi set S and later replaced all the subsets with the maximum element present in the respective subset.
+For example :
+
+Consider the following multi set consisting of 3 elements S = {1,2,3}.
+
+enter image description here
+
+enter image description here
+
+Now, Xsquare wonders that given an integer K how many elements in the final list are greater than ( > ) , less than ( < ) or equals to ( == ) K.
+
+To make this problem a bit more interesting, Xsquare decided to add Q queries to this problem. Each of the queries has one of the following type.
+
+    > K : Count the number of elements X in the final list such that X > K.
+    < K : Count the number of elements X in the final list such that X < K.
+    = K : Count the number of elements X in the final list such that X == K.
+
+Note:
+
+    Answer to a particular query can be very large. Therefore, Print the required answer modulo 109+7.
+    An empty subset is replaced by an integer 0.
+
+Input
+
+First line of input contains two space separated integers N and Q denoting the size of multiset S and number of queries respectively. Next line of input contains N space separated integers denoting elements of multi set S. Next Q lines of input contains Q queries each having one of the mentioned types.
+Output
+
+For each query, print the required answer modulo 109+7.
+Constraints:
+
+    1 ≤ N,Q ≤ 5*105
+    1 ≤ K,Si ≤ 109
+    query_type = { < , > , = }
+
+Warning :
+
+Prefer to use printf / scanf instead of cin / cout.   #include <bits/stdc++.h>
+    using namespace std ;
+    #define LL long long int
+    #define ft first
+    #define sd second
+    #define PII pair<int,int>
+    #define MAXN 1000001
+    #define mp make_pair
+    #define f_in(st) freopen(st,"r",stdin)
+    #define f_out(st) freopen(st,"w",stdout)
+    #define sc(x) scanf("%d",&x)
+    #define scll(x) scanf("%lld",&x)
+    #define pr(x) printf("%d\n",x)
+    #define pb push_back
+    #define MOD 1000000007
+    #define inf INT_MAX/2
+    #define ASST(X,L,R) assert(X >= L && X <= R)
+    int N,Q ;
+    vector<int> A ;
+    int power(int a,int b){
+    int res = 1 ;
+    while(b){
+    if(b%2){
+    res = (1LL * res * a) % MOD ;
+    }
+    b /= 2 ;
+    a = (1LL * a * a) % MOD ;
+    }
+    return res ;
+    }
+    int less_than_X(int X){
+    X -- ;
+    int c = upper_bound(A.begin(),A.end(),X)-A.begin() ;
+    return power(2,c) ;
+    }
+    int less_than_equals_to_X(int X){
+    int c = upper_bound(A.begin(),A.end(),X)-A.begin() ;
+    return power(2,c) ;
+    }
+    int main(){
+    sc(N) ;
+    sc(Q) ;
+    ASST(N,1,500000) ;
+    ASST(Q,1,500000) ;
+    A.resize(N) ;
+    for(int i=0;i<N;i++){
+    sc(A[i]) ;
+    ASST(A[i],1,1000000000) ;
+    }
+    sort(A.begin(),A.end()) ;
+    char ch ;
+    int X;
+    int total_subsets = power(2,N) ;
+    while(Q--){
+    cin >> ch ;
+    sc(X) ;
+    assert(ch == '>' || ch == '<' || ch == '=') ;
+    ASST(X,1,1000000000) ;
+    int ans = 0 ;
+    switch(ch){
+    case '<' : pr(less_than_X(X)) ;
+    break ;
+    case '>' : ans = less_than_equals_to_X(X) ;
+    ans = total_subsets - ans ;
+    if( ans < 0 )
+    ans += MOD ;
+    pr(ans) ;
+    break ;
+    case '=' : ans = less_than_equals_to_X(X) ;
+    ans -= less_than_X(X) ;
+    if( ans < 0 )
+    ans += MOD ;
+    pr(ans) ;
+    break ;
+    }
+    }
+    return 0 ;
+    }
