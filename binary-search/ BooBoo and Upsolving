@@ -1,0 +1,115 @@
+The hero of this story is a toddler named BooBoo. Inspired by the legendary competitive coder Gena, BooBoo has also started preparing to race to the top of the ranks.
+
+BooBoo is going to practice N
+different problems in the exact given order over the next M days. For each problem, he writes down the amount of time qi he will take to think and code the ith
+
+problem (He is quite good at estimating!). Before starting on the problems, he took advice from experienced competitive programmers on his practice routine and almost all of them advised him to keep his daily load at the minimum possible and avoid over training.
+
+Since BooBoo already has N
+problems to solve, he asks you to find the minimum time T such that training everyday for a time ti≤T is sufficient to solve all the N problems in M
+
+days.
+
+Note : Unlike in real world, you cannot think on a problem on one day and solve it on the other day. You need to do it on the very same day!
+
+Input Format:
+
+The first line contains two space separated integers N
+and M. The next line contains N space separated integers denoting the time qi required to solve the ith
+
+problem.
+
+Output Format:
+
+The output consists of one integer, the minimum time T
+
+as described in the problem statement.
+
+Constraints:
+
+1≤N≤105
+
+1≤M≤N
+1≤qi≤1012
+
+
+Subtasks
+
+20 points: 1≤N≤1000,1≤M≤100,1≤qi≤100
+
+.
+80 points: Original Constraints
+SAMPLE INPUT
+
+5 3
+1 2 2 1 3
+
+SAMPLE OUTPUT
+
+3
+
+Explanation
+
+By setting T = 3, we can solve 1st two questions on day 1, next two on day 2 and 5th one on day 3.
+#include<bits/stdc++.h>
+     
+    #define pb push_back
+    #define mp make_pair
+    #define f first
+    #define s second
+    #define ll long long
+    #define For(i,j,n) for(int (i) = (j); i < n; i++)
+    #define MAX(a, b) ((a) > (b) ? (a) : (b))
+    #define MIN(a, b) ((a) < (b) ? (a) : (b))
+    #define Max INT_MAX
+    #define Min INT_MIN
+    #define mod 1000000007
+    using namespace std;
+    ll power(ll b,ll exp,ll m)
+    {
+	    ll ans=1;b%=m;
+	    while(exp){if(exp&1) ans=(ans*b)%m;
+	    exp>>=1;b=(b*b)%m;}
+	    return ans;
+	    	
+    }
+     
+    ll s[100002];
+    int n,m;
+     
+    int check(ll x)
+    {
+		int days=1;
+	    ll sum=0;
+	    For(i,0,n)
+	    {
+	    if(s[i]+sum>x)
+	    {
+	    days++;
+	    sum=s[i];
+	    }
+	    else
+	    sum+=s[i];
+	    }	
+	    return days>m ? 0:1;
+    }
+     
+    int main()
+    {
+	    ll max=0;
+	    cin>>n>>m;
+	    For(i,0,n)
+	    {
+		    scanf("%lld",&s[i]);
+		    max=MAX(max,s[i]);
+	    }
+	    ll high=1e18;
+	    while(max<high)
+	    {
+		    ll mid=max+(high-max)/2;
+		    if(check(mid))
+		    high=mid;
+		    else
+		    max=mid+1;
+	    }
+	    printf("%lld",max);
